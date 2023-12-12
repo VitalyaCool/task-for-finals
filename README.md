@@ -9,8 +9,7 @@ first_card и second_card: Переменные для хранения инде
 turns: Счетчик для отслеживания количества ходов, сделанных игроком.
 pairs_opened: Список для хранения индексов карт, которые были успешно найдены.
 
-python
-Copy code
+
 cards = [i for i in range(8)] * 2
 random.shuffle(cards)
 exposed = [False] * 16
@@ -27,8 +26,8 @@ pairs_opened = []
 Если это первая выбранная карта, ее индекс сохраняется в first_card. Если вторая карта, ее индекс сохраняется в second_card.
 Затем вызывается функция check_match с небольшой задержкой для проверки совпадения выбранных карт.
 
-python
-Copy code
+
+
 def on_click(index):
     global first_card, second_card, turns
     if not exposed[index]:
@@ -51,8 +50,7 @@ def on_click(index):
 После обработки совпадения сбрасываются first_card и second_card на -1.
 Если все пары открыты, выводится сообщение о победе игрока.
 
-python
-Copy code
+
 def check_match():
     global first_card, second_card
     if cards[first_card] != cards[second_card]:
@@ -72,15 +70,16 @@ def check_match():
 
 Сброс карт (reset_cards):
 Сбрасывает игру, перетасовывая карты, сбрасывая статус открытия и инициализируя другие переменные игры.
-python
-Copy code
+
+
+
 def reset_cards():
     global cards, exposed, first_card, second_card, turns, pairs_opened
     # ... (тот же код инициализации, что и в начале)
 Настройка графического интерфейса с использованием Tkinter:
 Создает окно Tkinter, кнопки для карт, метку для отображения количества ходов и кнопку сброса.
-python
-Copy code
+
+
 root = tk.Tk()
 # ... (Настройка окна Tkinter)
 
@@ -96,4 +95,5 @@ reset_button = tk.Button(root, text="Начать заново", command=reset_c
 # ... (Настройка кнопки сброса)
 
 root.mainloop()
+
 В заключение, этот код создает простой графический интерфейс для игры "Memory", где игрок должен находить пары одинаковых карт, кликая по ним. Игра отслеживает количество ходов, отображает их на графическом интерфейсе и объявляет о победе, когда все пары найдены. Игрок также может сбросить игру для повторного прохождения.
