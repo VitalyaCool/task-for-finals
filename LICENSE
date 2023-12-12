@@ -1,24 +1,68 @@
-This is free and unencumbered software released into the public domain.
+import tkinter as tk
+import random
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
+def on_click(index):
+    global first_card, second_card, turns
+    if not exposed[index]:
+        exposed[index] = True
+        buttons[index].config(text=str(cards[index]))
+        if first_card == -1:
+            first_card = index
+        else:
+            second_card = index
+            turns += 1
+            label.config(text="Ходы = " + str(turns))
+            root.after(500, check_match)
 
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
+def check_match():
+    global first_card, second_card
+    if cards[first_card] != cards[second_card]:
+        buttons[first_card].config(text="")
+        buttons[second_card].config(text="")
+        exposed[first_card] = False
+        exposed[second_card] = False
+    else:
+        pairs_opened.append(first_card)
+        pairs_opened.append(second_card)
+    first_card = -1
+    second_card = -1
+    if len(pairs_opened) == len(cards):
+        label.config(text="Вы выиграли за " + str(turns) + " ходов!")
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+def reset_cards():
+    global cards, exposed, first_card, second_card, turns, pairs_opened
+    cards = [i for i in range(8)] * 2
+    random.shuffle(cards)
+    exposed = [False] * 16
+    first_card = -1
+    second_card = -1
+    turns = 0
+    pairs_opened = []
+    label.config(text="Ходы = 0")
+    for i in range(16):
+        buttons[i].config(text="")
 
-For more information, please refer to <https://unlicense.org>
+root = tk.Tk()
+root.title("Memory Game")
+
+cards = [i for i in range(8)] * 2
+random.shuffle(cards)
+exposed = [False] * 16
+first_card = -1
+second_card = -1
+turns = 0
+pairs_opened = []
+
+buttons = []
+for i in range(16):
+    button = tk.Button(root, text="", width=8, height=4, font=('Helvetica', 16), command=lambda index=i: on_click(index))
+    button.grid(row=i // 4, column=i % 4)
+    buttons.append(button)
+
+label = tk.Label(root, text="Ходы = 0", font=('Helvetica', 14))
+label.grid(row=4, columnspan=4)
+
+reset_button = tk.Button(root, text="Начать заново", command=reset_cards, font=('Helvetica', 14))
+reset_button.grid(row=5, columnspan=4)
+
+root.mainloop()
