@@ -75,24 +75,24 @@ def check_match():
 
 def reset_cards():
     global cards, exposed, first_card, second_card, turns, pairs_opened
-    # ... (тот же код инициализации, что и в начале)
+    
 Настройка графического интерфейса с использованием Tkinter:
 Создает окно Tkinter, кнопки для карт, метку для отображения количества ходов и кнопку сброса.
 
 
 root = tk.Tk()
-# ... (Настройка окна Tkinter)
+
 
 buttons = []
 for i in range(16):
-    # ... (Настройка кнопки для каждой карты)
+    
     buttons.append(button)
 
 label = tk.Label(root, text="Ходы = 0", font=('Helvetica', 14))
-# ... (Настройка метки)
+
 
 reset_button = tk.Button(root, text="Начать заново", command=reset_cards, font=('Helvetica', 14))
-# ... (Настройка кнопки сброса)
+
 
 root.mainloop()
 
